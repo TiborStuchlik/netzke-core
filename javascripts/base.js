@@ -688,5 +688,30 @@ Ext.define("Netzke.Base", {
       }, this);
       delete config.netzkePlugins;
     }
+  },
+
+  settings: function( klass, a, b ) {
+      if ( typeof klass != 'string') {
+          klass = null
+      }
+      let me = this
+      let p = this.netzkeParent
+      while (p) {
+          me = p
+          p = p.netzkeParent
+      }
+
+      console.log("settings: ", me)
+      me.mask()
+      this.netzkeLoadComponent('settings', {
+          serverConfig: { model: klass},
+          scope: this,
+          callback: function(res) {
+              me.mask()
+              res.mask = me
+              console.log('on cb', res)
+          }
+          }
+      )
   }
 });

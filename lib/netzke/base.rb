@@ -13,6 +13,7 @@ require 'netzke/core/session'
 require 'netzke/core/core_i18n'
 require 'netzke/core/inheritance'
 require 'netzke/core/support'
+require 'netzke/core/authorization'
 
 module Netzke
   # The base class for every Netzke component. Its main responsibilities include:
@@ -51,6 +52,7 @@ module Netzke
     include Core::Session
     include Core::State
     include Core::Configuration
+    include Core::Authorization
     include Core::ClientCode
     include Core::Services
     include Core::Composition
@@ -87,15 +89,49 @@ module Netzke
       client_config = Netzke::Support.permit_hash_params(conf.delete(:client_config))
       config.client_config = HashWithIndifferentAccess.new(client_config)
 
+      config.glyph = "x#{"f1b8"}@FontAwesome"
+
+      config.title = tu self.class.to_s
+
       # Build complete component configuration
       configure(config)
 
       # Check whether the config is valid (as specified in a custom override)
       validate_config(config)
 
+      if (session[:devel])
+        if (config.is_devel)
+          config.header = true
+        end
+      else
+        if (config.is_devel)
+          config.header = false
+        end
+      end
+
+      if session[:settings]
+        config.tools ||= []
+        config.tools <<
+            {
+                type: :gear,
+                scope: f("this"),
+                callback: f("settings")
+            }
+        self.class.settings_component
+      end
+
       normalize_config
 
       config.deep_freeze
     end
+
+    private
+
+    def self.settings_component
+      component :settings do |c|
+        c.klass = System::Settings
+      end
+    end
+
   end
 end

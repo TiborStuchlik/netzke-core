@@ -136,6 +136,7 @@ module Netzke::Core
           { error: "Couldn't load component '#{component_name}'" }
         end
       end
+
     end # included
 
     # @return [Array] names of eagerly loaded components
