@@ -38,6 +38,7 @@ module Netzke
           else
 
             Uglifier.compile(js_string,harmony: true)
+
           end
         end
 
