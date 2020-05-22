@@ -36,7 +36,7 @@ module Netzke
           if ::Rails.env.test? || ::Rails.env.development?
             js_string.gsub(/\/\*\*[^*]*\*+(?:[^*\/][^*]*\*+)*\//, '') # strip docs
           else
-
+            #todo tyb
             Uglifier.compile(js_string,harmony: true)
 
           end
