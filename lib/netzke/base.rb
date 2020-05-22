@@ -89,6 +89,8 @@ module Netzke
       client_config = Netzke::Support.permit_hash_params(conf.delete(:client_config))
       config.client_config = HashWithIndifferentAccess.new(client_config)
 
+      puts ">>>>   INITIALIZE: #{@path}"
+
       config.glyph = "x#{"f1b8"}@FontAwesome"
 
       config.title = tu self.class.to_s
