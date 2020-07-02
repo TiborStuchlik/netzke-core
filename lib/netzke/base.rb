@@ -91,7 +91,9 @@ module Netzke
 
       puts ">>>>   INITIALIZE: #{@path}"
 
-      config.glyph = "x#{"f1b8"}@FontAwesome"
+      #config.glyph = "x#{"f1b8"}@FontAwesome"
+      #config.icon = '/images/svg/recycle.svg'
+      config.iconCls = 'tyb-header-icon'
 
       config.title = tu self.class.to_s
 
