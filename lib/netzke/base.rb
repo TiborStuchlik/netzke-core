@@ -89,13 +89,16 @@ module Netzke
       client_config = Netzke::Support.permit_hash_params(conf.delete(:client_config))
       config.client_config = HashWithIndifferentAccess.new(client_config)
 
-      puts ">>>>   INITIALIZE: #{@path}"
+      # by tiba
+      #li ">>>>   INITIALIZE: #{@path}"
 
-      #config.glyph = "x#{"f1b8"}@FontAwesome"
-      #config.icon = '/images/svg/recycle.svg'
       config.iconCls = 'tyb-header-icon'
 
-      config.title = tu self.class.to_s
+      #config.title = tu self.class.to_s
+
+      config.merge! Component.get(self)
+
+      #end by tiba
 
       # Build complete component configuration
       configure(config)
