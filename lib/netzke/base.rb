@@ -96,7 +96,19 @@ module Netzke
 
       #config.title = tu self.class.to_s
 
-      config.merge! Component.get(self)
+      @dbconf = Component.get(self)
+      #config.merge! @dbconf.config
+      code, res = evalute
+      if code == 0
+        if res.is_a? Hash
+          config.merge! res
+        end
+        config.evalute_result = :ok
+      else
+        config.evalute_result = :error
+      end
+
+      config.merge! @dbconf.virtual_config
 
       #end by tiba
 
@@ -107,16 +119,16 @@ module Netzke
       validate_config(config)
 
       if (session[:devel])
-        if (config.is_devel)
-          config.header = true
-        end
-      else
-        if (config.is_devel)
-          config.header = false
-        end
       end
 
       if session[:settings]
+        if (config.is_setting)
+          config.header = {
+              style: {
+                background: 'rgba(255,0,0,0.3)'
+              }
+          }
+        end
         config.tools ||= []
         config.tools <<
             {
@@ -125,11 +137,28 @@ module Netzke
                 callback: f("settings")
             }
         self.class.settings_component
+      else
+        if (config.is_setting)
+          config.header = false
+        end
       end
 
       normalize_config
 
       config.deep_freeze
+    end
+
+    def dbconf
+      @dbconf
+    end
+
+    def evalute
+      code = @dbconf.config
+      begin
+        [0, eval(code, binding)]
+      rescue => err
+        [1, err]
+      end
     end
 
     private
