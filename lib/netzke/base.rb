@@ -115,6 +115,8 @@ module Netzke
       # Build complete component configuration
       configure(config)
 
+      config.merge! @dbconf.post_config
+
       # Check whether the config is valid (as specified in a custom override)
       validate_config(config)
 
