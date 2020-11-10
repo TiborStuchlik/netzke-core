@@ -92,7 +92,7 @@ module Netzke
       # by tiba
       #li ">>>>   INITIALIZE: #{@path}"
 
-      config.iconCls = 'tyb-header-icon'
+      config.iconCls = 'tyb-header-icon' unless config.iconCls
 
       #config.title = tu self.class.to_s
 
