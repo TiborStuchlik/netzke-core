@@ -70,6 +70,7 @@ module Netzke
 
     # Instantiates a component instance. A parent can optionally be provided.
     def initialize(conf = {}, parent = nil)
+
       @passed_config = conf
 
       # parent component
@@ -117,6 +118,11 @@ module Netzke
 
       config.merge! @dbconf.post_config
 
+      if config.is_user_save
+        uc = $CU.get_config( 'components', @path)
+        config.merge! uc
+      end
+
       # Check whether the config is valid (as specified in a custom override)
       validate_config(config)
 
@@ -161,6 +167,10 @@ module Netzke
       rescue => err
         [1, err]
       end
+    end
+
+    endpoint :user_save do | w, h |
+      $CU.save_config( 'components', path, { width: w, height: h} )
     end
 
     private

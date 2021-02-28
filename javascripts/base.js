@@ -67,6 +67,13 @@ Ext.define("Netzke.Base", {
    * @method netzkeAfterInitComponent
    */
   netzkeAfterInitComponent: function(){
+    if (this.isUserSave) {
+        console.log('----- Component saveveble:', this.path)
+        this.on('resize', (me, w, h)=> {
+            console.log("on resize:", w, h)
+            this.server.userSave(w,h)
+        })
+    }
   },
 
   /**
