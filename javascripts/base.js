@@ -63,6 +63,7 @@ Ext.define("Netzke.Base", {
   },
 
   /**
+   * by tyb
    * Called after `initComponent`. Override as needed.
    * @method netzkeAfterInitComponent
    */

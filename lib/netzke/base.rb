@@ -169,7 +169,7 @@ module Netzke
       end
     end
 
-    #by tyb
+    #by tyb - user setting
     endpoint :user_save do | w, h |
       $CU.save_config( 'components', path, { width: w, height: h} )
     end
